@@ -1,0 +1,145 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="favicon.ico" >
+	<link rel="Shortcut Icon" href="favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="__STATIC__/lib/html5.js"></script>
+	<script type="text/javascript" src="__STATIC__/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/style.css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<!--/meta 作为公共模版分离出去-->
+
+	<title>域名列表</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/index/domain/domain_list">域名管理</a><a class="logo navbar-logo f-l mr-10 hidden-xs" href="/index/history/history_list">历史管理</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs"></span>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li>用户：</li>
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">{$Think.session.user_info.name} <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="{:url("/index/user/logout")}">退出</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<form action="" method="post" class="form form-horizontal" id="form-goods-add">
+<section class="Hui-article-box">
+		<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+				 <input class="btn btn-danger radius" type="button" name="submit" id="submit"  value="批量删除" onclick="alldel();">
+				<a href="javascript:;" onclick="unDelete()" class="btn btn-danger radius"> 批量恢复</a>
+				<a href="javascript:;" onclick="admin_add('添加域名记录','{:url("index/history/history_add")}','800','700')" class="btn btn-primary radius">
+<i class="Hui-iconfont">&#xe600;</i> 添加历史</a>
+			</span><span class="r">共有数据：<strong>{$count}</strong> 条</span>
+			</div>
+
+			<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="name" type="text" placeholder="域名"/>
+ 			<input type="text" name="firstdate" onfocus="WdatePicker()" id="logmin" class="input-text Wdate" style="width:100px;">
+			<input type="text" name="lastdate" onfocus="WdatePicker()" id="logmax" class="input-text Wdate" style="width:100px;">
+  <a  class="btn btn-danger radius" title="查找" href="javascript:;" onclick="select1('查找','/index/history/selects','1400','600')" class="ml-5" style="text-decoration:none">查找</a>
+
+			</span>
+		</div>
+
+
+			<div class="mt-20">
+				<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<thead>
+						<tr class="text-c">
+							<th width="25"><input type="checkbox" name="" value=""></th>
+							<th width="20">ID</th>
+							<th width="200">名称</th>
+							<th width="100">谷歌收录</th>
+							<th width="100">排名情况</th>
+							<th width="60">LE</th>
+							<th width="60">BL</th>
+							<th width="60">DP</th>
+							<th width="60">WBY</th>
+							<th width="60">ABY</th>
+							<th width="60">ACR</th>
+							<th width="60">后缀名</th>
+							<th width="100">添加时间</th>
+							<th width="100">备注</th>
+							<th width="100">是否来询盘</th>
+							<th >操作</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					{volist name="data" id="pp"}
+						<tr class="text-c">
+							<td><input name="delete_id[]" type="checkbox" value="{$pp.id}"></td>
+							<td>{$pp.id}</td>
+							<td><a title="图片查看" href="javascript:;" onclick="pic_show('图片查看','{:url("history/pic_show",["id"=>$pp["id"]])}','2','1400','600')" class="ml-5" style="text-decoration:none">{$pp.name}</a></td>
+							<td>{$pp.googel}</td>
+							<td>{$pp.rank}</td>
+							<td>{$pp.le}</td>
+							<td>{$pp.bl}</td>
+							<td>{$pp.dp}</td>
+							<td>{$pp.wby}</td>
+							<td>{$pp.aby}</td>
+							<td>{$pp.acr}</td>
+							<td>{$pp.suffix}</td>
+							<td>{$pp.create_time}</td>
+							<td>{$pp.remark}</td>
+							<td>{$pp.is_xunp}</td>
+							<td class="td-manage">
+								<a title="图片编辑" href="javascript:;" onclick="goods_edit('图片编辑','{:url("history/pic_edit",["id"=>$pp["id"]])}','2','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6de;</i></a>
+								<a title="编辑" href="javascript:;" onclick="domain_edit('编辑','{:url("history/history_edit",["id"=>$pp["id"]])}','1','800','500')" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6df;</i>
+								</a>
+								<a title="删除" href="javascript:;" onclick="domain_del(this,{$pp.id})" class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
+							</td>
+					{/volist}
+					</tbody>
+				</table>
+
+			</div>
+			<div style="clear: both"></div>
+			<div id="container" style="width:32%;height:400px; float: left"></div>
+			<div id="container1" style="width:32%;height:400px; float: left"></div>
+			<div id="container2" style="width:32%;height:400px; float: left"></div>
+		</article>
+	</div>
+
+
+</section>
+</form>
+
+
+{include file="/pubulic/js"}
+
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

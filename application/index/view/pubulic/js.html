@@ -1,0 +1,183 @@
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="__STATIC__/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.table-sort').dataTable({
+            "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+            "bStateSave": true,//状态保存
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable":false,"aTargets":[0]}// 制定列不参与排序
+            ]
+        });
+        $('.table-sort tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+    });
+    function goods_edit(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+    /*用户-添加*/
+    function admin_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+    /*用户-查看*/
+    function pic_show(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+
+    /*用户-编辑*/
+    function domain_edit(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+    /*密码-修改*/
+    function change_password(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+    /*用户-删除*/
+    function domain_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.get("{:url('delete_domain')}",{id:id});
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+        });
+    }
+    function unDelete() {
+        layer.confirm('确认要恢复吗？', function () {
+            $.get("{:url('unDelete')}");
+
+            layer.msg('已恢复!', {icon: 1, time: 1000}); //消息弹层1秒后消失
+            window.location.reload(); //重新加载页面,显示所有数据
+        });
+    }
+    function alldel(){
+        var form = new FormData(document.getElementById("form-goods-add"));
+        $.ajax({
+            type: "POST",
+            url: "{:url('alldelete')}",
+            processData:false,
+            contentType:false,
+            data:form,
+            dataType: "json",
+            success: function(data){
+                if (data.status == 1) {
+                    alert(data.message);
+                    window.parent.location.reload(); //刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                    parent.layer.close(index);  // 关闭layer
+                } else {
+                    alert(data.message);
+
+                }
+            }
+        });
+    }
+    function select(title,url,w,h){
+        var name=$("[name='name']").val();
+        var suffix=$("[name='suffix']").val();
+        var language=$("[name='language']").val();
+        var cloudflare=$("[name='cloudflare']").val();
+        var vps=$("[name='vps']").val();
+        var dbs=$("[name='dbs']").val();
+        var template=$("[name='template']").val();
+        var ax=$("[name='ax']").val();var bx=$("[name='bx']").val();var cx=$("[name='cx']").val();var c1x=$("[name='c1x']").val();
+
+        var lastdate=$("[name='lastdate']").val();
+        var firstdate=$("[name='firstdate']").val();
+        if(name!=""){
+            url=url+"/name/"+name;
+        }
+        if(suffix!=""){
+            url=url+"/suffix/"+suffix;
+        }
+        if(language!=""){
+            url=url+"/language/"+language;
+        }
+        if(cloudflare!=""){
+            url=url+"/cloudflare/"+cloudflare;
+        }
+        if(name!=""){
+            url=url+"/name/"+name;
+        }
+        if(vps!=""){
+            url=url+"/vps/"+vps;
+        }
+        if(dbs!=""){
+            url=url+"/dbs/"+dbs;
+        }
+        if(template!=""){
+            url=url+"/template/"+template;
+        }
+        if(ax!=""){
+            url=url+"/ax/"+ax;
+        }
+        if(bx!=""){
+            url=url+"/bx/"+bx;
+        }
+        if(cx!=""){
+            url=url+"/cx/"+cx;
+        }
+        if(c1x!=""){
+            url=url+"/c1x/"+c1x;
+        }
+        if(firstdate!=""){
+            url=url+"/firstdate/"+firstdate;
+        }
+        if(lastdate!=""){
+            url=url+"/lastdate/"+lastdate;
+        }
+        layer_show(title,url,w,h);
+    }
+    function select1(title,url,w,h){
+        var name=$("[name='name']").val();
+
+        var lastdate=$("[name='lastdate']").val();
+        var firstdate=$("[name='firstdate']").val();
+        if(name!=""){
+            url=url+"/name/"+name;
+        }
+        if(firstdate!=""){
+            url=url+"/firstdate/"+firstdate;
+        }
+        if(lastdate!=""){
+            url=url+"/lastdate/"+lastdate;
+        }
+        layer_show(title,url,w,h);
+    }
+    function add_xp(obj,id,num,xp){
+        layer.confirm('确定要加一吗？',function(index){
+            $.get("{:url('domain/add_xp')}",{id:id,xp:xp});
+            layer.msg('ok!',{icon:1,time:1000});
+            num++;
+            $(obj).closest("td").innerHTML=num;
+            $(obj).closest("td").html('<a style="text-decoration:none" onClick="add_ab(this,\''+id+'\','+num+',"xp")" href="javascript:;" title="加一"><span class="label label-success radius">'+num+'</span></a>');
+        });
+    }
+
+    // function add_cd(obj,id,num){
+    //     layer.confirm('确定要加一吗？',function(index){
+    //         $.get("{:url('domain/add_cd')}",{id:id});
+    //         layer.msg('ok!',{icon:1,time:1000});
+    //         num++;
+    //         $(obj).closest("td").innerHTML=num;
+    //         $(obj).closest("td").html('<a style="text-decoration:none" onClick="add_cd(this,\''+id+'\','+num+')" href="javascript:;" title="加一"><span class="label label-success radius">'+num+'</span></a>');
+    //     });
+    // }
+</script>

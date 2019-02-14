@@ -1,0 +1,304 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="favicon.ico" >
+	<link rel="Shortcut Icon" href="favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="__STATIC__/lib/html5.js"></script>
+	<script type="text/javascript" src="__STATIC__/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/style.css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<!--/meta 作为公共模版分离出去-->
+
+	<title>域名列表</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/index/domain/domain_list">域名管理</a><a class="logo navbar-logo f-l mr-10 hidden-xs" href="/index/history/history_list">历史管理</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs"></span>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li>用户：</li>
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">{$Think.session.user_info.name} <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="{:url("/index/user/logout")}">退出</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<form action="" method="post" class="form form-horizontal" id="form-goods-add">
+<section class="Hui-article-box">
+		<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+				 <input class="btn btn-danger radius" type="button" name="submit" id="submit"  value="批量删除" onclick="alldel();">
+				<a href="javascript:;" onclick="unDelete()" class="btn btn-danger radius"> 批量恢复</a>
+				<a href="javascript:;" onclick="admin_add('添加域名记录','{:url("index/domain/domain_add")}','800','700')" class="btn btn-primary radius">
+<i class="Hui-iconfont">&#xe600;</i> 添加域名</a>
+			</span><span class="r">共有数据：<strong>{$count}</strong> 条</span>
+			</div>
+
+			<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="name" type="text" placeholder="域名"/>
+			<input style="height: 28px; width: 50px; margin: 0 0 0 10px" name="suffix" type="text" placeholder="后缀"/>
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="language" type="text" placeholder="语种"/>
+			<input style="height: 28px; width: 150px; margin: 0 0 0 10px" name="cloudflare" type="text" placeholder="cloudflare"/>
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="vps" type="text" placeholder="vps"/>
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="dbs" type="text" placeholder="数据库"/>
+			<input style="height: 28px; width: 100px; margin: 0 0 0 10px" name="template" type="text" placeholder="模板"/>
+			<input style="height: 28px; width: 30px; margin: 0 0 0 10px" name="ax" type="text" placeholder="A询盘"/>
+				<input style="height: 28px; width: 30px; margin: 0 0 0 10px" name="bx" type="text" placeholder="B询盘"/>
+				<input style="height: 28px; width: 30px; margin: 0 0 0 10px" name="cx" type="text" placeholder="C询盘"/>
+				<input style="height: 28px; width: 30px; margin: 0 0 0 10px" name="c1x" type="text" placeholder="C1询盘"/>
+
+ 			<input type="text" name="firstdate" onfocus="WdatePicker()" id="logmin" class="input-text Wdate" style="width:90px;">
+			<input type="text" name="lastdate" onfocus="WdatePicker()" id="logmax" class="input-text Wdate" style="width:90px;">
+  <a  class="btn btn-danger radius" title="查找" href="javascript:;" onclick="select('查找','/index/domain/selects','1400','600')" class="ml-5" style="text-decoration:none">查找</a>
+
+			</span>
+		</div>
+
+
+			<div class="mt-20">
+				<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<thead>
+						<tr class="text-c">
+							<th width="25"><input type="checkbox" name="" value=""></th>
+							<th width="20">ID</th>
+							<th width="200">名称</th>
+							<th width="120">vps</th>
+							<th width="60">后缀名</th>
+							<th width="30">语种</th>
+							<th width="100">cloudflare</th>
+							<th width="100">添加时间</th>
+							<th width="200">数据库</th>
+							<th width="200">url</th>
+							<th width="20">A</th>
+							<th width="20">B</th>
+							<th width="20">C</th>
+							<th width="20">C-</th>
+							<th width="100">备注</th>
+							<th >操作</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					{volist name="data" id="pp"}
+						<tr class="text-c">
+							<td><input name="delete_id[]" type="checkbox" value="{$pp.id}"></td>
+							<td>{$pp.id}</td>
+							<td>{$pp.name}</td>
+							<td>{$pp.vps}</td>
+							<td>{$pp.suffix}</td>
+							<td>{$pp.language}</td>
+							<td>{$pp.cloudflare}</td>
+							<td>{$pp.add_time}</td>
+							<td>{$pp.dbs}</td>
+							<td title="{$pp.url}">{$pp.url|mb_substr=0,20,'utf-8'}...</td>
+							<td class="td-status">
+								<a style="text-decoration:none" onClick="add_xp(this,'{$pp.id}',{$pp.ax},'ax')" href="javascript:;" title="加一">
+									{eq name="$pp.ax" value="0"}
+									<span class="label label-defaunt radius">{$pp.ax}</span>
+									{else /}
+								<span class="label label-success radius">{$pp.ax}</span>
+									{/eq}
+								</a>
+							</td>
+							<td class="td-status">
+								<a style="text-decoration:none" onClick="add_xp(this,'{$pp.id}',{$pp.bx},'bx')" href="javascript:;" title="加一">
+									{eq name="$pp.bx" value="0"}
+									<span class="label label-defaunt radius">{$pp.bx}</span>
+									{else /}
+									<span class="label label-success radius">{$pp.bx}</span>
+									{/eq}
+								</a>
+							</td>
+							<td class="td-status">
+								<a style="text-decoration:none" onClick="add_xp(this,'{$pp.id}',{$pp.cx},'cx')" href="javascript:;" title="加一">
+									{eq name="$pp.cx" value="0"}
+									<span class="label label-defaunt radius">{$pp.cx}</span>
+									{else /}
+									<span class="label label-success radius">{$pp.cx}</span>
+									{/eq}
+								</a>
+							</td>
+							<td class="td-status">
+								<a style="text-decoration:none" onClick="add_xp(this,'{$pp.id}','{$pp.c1x}','c1x')" href="javascript:;" title="加一">
+								{eq name="$pp.c1x" value="0"}
+								<span class="label label-defaunt radius">{$pp.c1x}</span>
+								{else /}
+								<span class="label label-success radius">{$pp.c1x}</span>
+								{/eq}
+
+								</a>
+							</td>
+							<td>{$pp.remarks}</td>
+							<td class="td-manage">
+								<a title="编辑" href="javascript:;" onclick="domain_edit('编辑','{:url("domain/domain_edit",["id"=>$pp["id"]])}','1','800','500')" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6df;</i>
+								</a>
+								<a title="删除" href="javascript:;" onclick="domain_del(this,{$pp.id})" class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
+							</td>
+					{/volist}
+					</tbody>
+				</table>
+
+			</div>
+			<div style="clear: both"></div>
+			<div id="container" style="width:32%;height:400px; float: left"></div>
+			<div id="container1" style="width:32%;height:400px; float: left"></div>
+			<div id="container2" style="width:32%;height:400px; float: left"></div>
+		</article>
+	</div>
+
+
+</section>
+</form>
+
+
+{include file="/pubulic/js"}
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '语种分布'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+					{volist name="language" id="vo"}
+                    ['{$key}',   {$vo}],
+					{/volist}
+                ]
+            }]
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#container1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '后缀分布'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    {volist name="suffix" id="vo"}
+                        ['{$key}',   {$vo}],
+                    {/volist}
+                ]
+            }]
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#container2').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '模板分布'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    {volist name="template" id="vo"}
+                        ['{$key}',   {$vo}],
+                    {/volist}
+                ]
+            }]
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

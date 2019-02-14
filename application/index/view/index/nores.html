@@ -1,0 +1,93 @@
+{include file="/pubulic/header"}
+{include file="/pubulic/body-header"}
+
+
+{include file="/pubulic/menu"}
+<form action="" method="post" class="form form-horizontal" id="form-goods-add">
+<section class="Hui-article-box">
+
+    <div class="Hui-article">
+        <article class="cl pd-20">
+没有查询结果
+
+
+            <br>
+
+            <div class="mt-10">
+                <table class="table table-border table-bordered table-bg table-sort">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </div>
+</section>
+</form>
+{include file="/pubulic/js"}
+<script type="text/javascript">
+    $('.table-sort').dataTable({
+        "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+        "bStateSave": true,//状态保存
+        "aoColumnDefs": [
+            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+            {"orderable":false,"aTargets":[0,6]}// 制定列不参与排序
+        ]
+    });
+    function member_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+    function select(title,url,w,h){
+        var inputs=$("[name='inputs']").val();
+        url=url+"inputs/"+inputs;
+        layer_show(title,url,w,h);
+    }
+
+    function brand_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.get("{:url('order/delete')}",{id:id});
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+        });
+    }
+    function unDelete() {
+        layer.confirm('确认要恢复吗？', function () {
+            $.get("{:url('brand/unDelete')}");
+
+            layer.msg('已恢复!', {icon: 1, time: 1000}); //消息弹层1秒后消失
+            window.location.reload(); //重新加载页面,显示所有数据
+        });
+    }
+    function member_edit(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+    function alldel(){
+        var form = new FormData(document.getElementById("form-goods-add"));
+        $.ajax({
+            type: "POST",
+            url: "{:url('order/alldelete')}",
+            processData:false,
+            contentType:false,
+            data:form,
+            dataType: "json",
+            success: function(data){
+                if (data.status == 1) {
+                    alert(data.message);
+                    window.parent.location.reload(); //刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                    parent.layer.close(index);  // 关闭layer
+                } else {
+                    alert(data.message);
+
+                }
+            }
+        });
+    }
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
